@@ -1,0 +1,18 @@
+
+sources:
+  - name: pg
+    database: carsharing_db
+    schema: public
+    tables:
+      - name: customer
+      - name: booking
+      - name: payment
+      - name: ride
+      - name: location
+      - name: car
+      - name: category
+      - name: service
+      - name: service_type
+      - name: breakdown
+      - name: breakdown_type
+      - name: accident
