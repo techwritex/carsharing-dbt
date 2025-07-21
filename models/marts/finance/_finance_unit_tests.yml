@@ -1,0 +1,15 @@
+unit_tests:
+  - name: test_cash_inflows_logic
+    description: "Проверка логики классификации притока денежных средств каршеринга."
+    model: fct_payments
+    given:
+      - input: ref('int_payments_joined_to_bookings')
+        rows:
+          - {amount: 4068.33}
+          - {amount: 2857.50}
+          - {amount: 1465.83}
+    expect:
+      rows:
+        - {amount: 4068.33, cash_inflows: 'large'}
+        - {amount: 2857.50, cash_inflows: 'medium'}
+        - {amount: 1465.83, cash_inflows: 'small'}
