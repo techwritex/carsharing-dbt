@@ -1,0 +1,42 @@
+version: 2
+
+models:
+  - name: dim_customers
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+  - name: dim_cars
+    description: Справочник автомобилей
+    columns:
+      - name: car_id
+        description: '{{ doc("car_id") }}'
+        tests:
+          - unique
+          - not_null
+      - name: category_text
+        description: Категория автомобиля
+        tests:
+          - accepted_values:
+              values: ['business', 'cargo', 'comfort', 'electro', 'standart']
+      - name: brand 
+        description: Марка автомобиля
+      - name: model 
+        description: Модель автомобиля
+      - name: rate
+        description: Тариф аренды автомобиля 
+      - name: car_year
+        description: Год выпуска
+      - name: vin 
+        description: VIN номер
+      - name: licence_plate 
+        description: Государственный регистрационный номер
+      - name: mileage
+        description: Пробег (км)
+  - name: dim_calendar
+    columns:
+      - name: date_id
+        tests:
+          - unique
+          - not_null

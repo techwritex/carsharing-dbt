@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: fct_payments
+    description: Оплата за пользование автомобилем 
+
+    columns:
+      - name: payment_id
+        description: Идентификатор оплаты
+        tests:
+          - unique
+          - not_null    
+      - name: amount
+        description: Сумма оплаты
+        tests:
+          - check_positive_values
+      - name: created_at 
+        description: Дата произведения оплаты
+      - name: customer_id
+        description: Идентификатор заказчика (арендатора)
+      - name: car_id 
+        description: '{{ doc("car_id") }}'
