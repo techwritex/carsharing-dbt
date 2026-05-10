@@ -1,0 +1,7 @@
+version: 1
+projects:
+  - name: Carsharing Analytics
+    dbt_project_dir: .
+    # Указываем Lightdash смотреть только на папку marts
+    models:
+      - "marts/**"

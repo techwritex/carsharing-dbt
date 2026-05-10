@@ -3,20 +3,68 @@ version: 2
 models:
   - name: fct_payments
     description: Оплата за пользование автомобилем 
+    meta:
+      # Настройка Explore: связываем факты со справочниками для Lightdash
+      joins:
+        - join: dim_customers
+          sql_on: ${fct_payments.customer_id} = ${dim_customers.customer_id}
+        - join: dim_cars
+          sql_on: ${fct_payments.car_id} = ${dim_cars.car_id}
+        - join: dim_calendar
+          sql_on: CAST(${fct_payments.created_at} AS DATE) = ${dim_calendar.full_date}
 
     columns:
       - name: payment_id
         description: Идентификатор оплаты
+        meta:
+          dimension:
+            type: string
+          metrics:
+            payment_count:
+              type: count
+              label: "Кол-во платежей"
         tests:
           - unique
           - not_null    
+
       - name: amount
         description: Сумма оплаты
+        meta:
+          dimension:
+            type: number
+          metrics:
+            total_revenue:
+              type: sum
+              label: "Общая выручка"
+              round: 2
+            avg_payment:
+              type: average
+              label: "Средний чек"
+              round: 2
         tests:
           - check_positive_values
+
       - name: created_at 
         description: Дата произведения оплаты
+        meta:
+          dimension:
+            type: timestamp
+
       - name: customer_id
         description: Идентификатор заказчика (арендатора)
+        meta:
+          dimension:
+            type: string
+
       - name: car_id 
         description: '{{ doc("car_id") }}'
+        meta:
+          dimension:
+            type: string
+
+      - name: cash_inflows
+        description: "Классификация платежа по сумме (small/medium/large)"
+        meta:
+          dimension:
+            type: string
+            label: "Сегмент платежа"

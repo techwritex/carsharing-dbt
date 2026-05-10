@@ -4,14 +4,21 @@ models:
   - name: dim_customers
     columns:
       - name: customer_id
+        meta:
+          dimension:
+            type: string # Обязательно, чтобы ID не отображался как число для суммы
         tests:
           - unique
           - not_null
+
   - name: dim_cars
     description: Справочник автомобилей
     columns:
       - name: car_id
         description: '{{ doc("car_id") }}'
+        meta:
+          dimension:
+            type: string # Обязательно, чтобы ID не отображался как число для суммы
         tests:
           - unique
           - not_null
@@ -19,7 +26,8 @@ models:
         description: Категория автомобиля
         tests:
           - accepted_values:
-              values: ['business', 'cargo', 'comfort', 'electro', 'standart']
+              arguments:
+                values: ['business', 'cargo', 'comfort', 'electro', 'standart']
       - name: brand 
         description: Марка автомобиля
       - name: model 
@@ -34,9 +42,17 @@ models:
         description: Государственный регистрационный номер
       - name: mileage
         description: Пробег (км)
+
   - name: dim_calendar
     columns:
       - name: date_id
+        meta:
+          dimension:
+            type: string # Обязательно, чтобы ID не отображался как число для суммы
         tests:
           - unique
           - not_null
+      - name: full_date # Добавляем описание поля для корректной работы Join в Lightdash
+        meta:
+          dimension:
+            type: date
